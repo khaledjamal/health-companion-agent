@@ -1,0 +1,76 @@
+Heart Rate Variability (HRV) and Recovery
+
+HRV is one of the most reliable indicators of recovery status and autonomic nervous system balance. Understanding and optimizing HRV is crucial for health and performance.
+
+What is HRV:
+- HRV measures variation in time between heartbeats
+- Higher HRV generally indicates better recovery and stress resilience
+- HRV is controlled by the autonomic nervous system
+- Normal range varies by individual (typically 20-100ms for RMSSD)
+
+HRV as a Recovery Marker:
+- High HRV: body is recovered and ready for stress/training
+- Low HRV: body needs more recovery time
+- Declining HRV trend: accumulating stress or overtraining
+- HRV drops during illness, overtraining, or high stress
+
+Factors that Improve HRV:
+- Quality sleep (7-9 hours)
+- Regular moderate exercise
+- Stress management (meditation, breathwork)
+- Proper hydration
+- Balanced nutrition
+- Recovery activities (massage, sauna, cold therapy)
+- Consistent sleep schedule
+
+Factors that Decrease HRV:
+- Poor sleep quality or insufficient sleep
+- Overtraining without adequate recovery
+- Excessive stress (physical or psychological)
+- Dehydration
+- Alcohol consumption
+- Illness or infection
+- Poor diet quality
+
+Using HRV for Decision Making:
+- Check HRV first thing in the morning for most accurate reading
+- If HRV is significantly below baseline (>10%): prioritize recovery
+- If HRV is normal or elevated: okay to proceed with normal activities
+- Track trends over weeks, not just daily values
+- Combine HRV with subjective feelings and other metrics
+
+HRV and Training:
+- Low HRV suggests nervous system fatigue - reduce training intensity
+- Consistently high HRV indicates good adaptation to training
+- Use HRV to guide recovery day decisions
+- Plan rest days when HRV is declining over multiple days
+
+Recovery Strategies for Low HRV:
+- Prioritize 8+ hours of quality sleep
+- Reduce training intensity or take rest day
+- Practice stress-reduction techniques
+- Increase hydration
+- Gentle movement (walking, yoga, stretching)
+- Avoid alcohol and excessive caffeine
+- Consider recovery modalities (massage, sauna)
+
+HRV and Stress:
+- Psychological stress impacts HRV similar to physical stress
+- Chronic stress leads to persistently low HRV
+- Meditation and breathwork can acutely increase HRV
+- Managing life stress is crucial for HRV optimization
+
+Measurement Best Practices:
+- Measure at same time daily (upon waking is ideal)
+- Measure in same position (lying or sitting)
+- Take 1-3 minute reading for accuracy
+- Track trends over 7-30 days, not single readings
+- Use consistent measurement device/method
+
+When HRV is Persistently Low:
+- Review sleep quality and duration
+- Assess training volume and intensity
+- Evaluate stress levels (work, relationships, life)
+- Check for signs of overtraining or illness
+- Consider 1-2 week deload period
+- Consult healthcare provider if concerns persist

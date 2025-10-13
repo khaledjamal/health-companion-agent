@@ -1,0 +1,13 @@
+{
+  "date": "2025-10-10",
+  "user_id": 1,
+  "sleep_hours": 8.0,
+  "sleep_quality": 9,
+  "hrv": 75,
+  "resting_heart_rate": 55,
+  "steps": 11500,
+  "active_minutes": 50,
+  "stress_score": 3,
+  "calories_consumed": 2100,
+  "water_intake_ml": 2800
+}

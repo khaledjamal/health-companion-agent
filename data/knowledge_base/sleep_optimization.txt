@@ -1,0 +1,52 @@
+Sleep Optimization Guidelines
+
+Quality sleep is fundamental to health, recovery, and performance. Here are evidence-based strategies for optimizing sleep:
+
+Sleep Duration:
+- Adults need 7-9 hours of sleep per night for optimal health
+- Consistency is key: maintain regular sleep and wake times, even on weekends
+- Sleep debt accumulates and cannot be fully recovered with weekend catch-up sleep
+
+Sleep Environment:
+- Keep bedroom temperature between 60-67°F (15-19°C)
+- Minimize light exposure: use blackout curtains or eye masks
+- Reduce noise: use earplugs or white noise machines if needed
+- Ensure comfortable mattress and pillow support
+
+Pre-Sleep Routine:
+- Avoid caffeine 8-10 hours before bedtime
+- Limit alcohol consumption (disrupts REM sleep)
+- Avoid large meals 2-3 hours before sleep
+- Reduce blue light exposure 2 hours before bed
+- Establish a relaxing wind-down routine (reading, meditation, gentle stretching)
+
+Sleep and HRV:
+- Heart Rate Variability (HRV) is strongly correlated with sleep quality
+- Deep sleep stages are critical for HRV recovery
+- Low HRV often indicates insufficient recovery and sleep issues
+- Prioritize sleep when HRV is consistently below your baseline
+
+Common Sleep Disruptors:
+- Electronic devices and screen time before bed
+- Irregular sleep schedule
+- Stress and anxiety
+- Lack of physical activity during the day
+- Poor sleep environment (light, noise, temperature)
+
+Sleep Tracking:
+- Monitor sleep patterns to identify trends
+- Pay attention to sleep efficiency (time asleep / time in bed)
+- Track how different behaviors affect sleep quality
+- Use data to make informed adjustments to sleep hygiene
+
+Recovery Indicators:
+- Improved morning HRV indicates good sleep quality
+- Lower resting heart rate suggests adequate recovery
+- Consistent energy levels throughout the day
+- Better mood and cognitive performance
+
+When to Seek Help:
+- Chronic difficulty falling or staying asleep (>3 weeks)
+- Excessive daytime sleepiness despite adequate sleep duration
+- Loud snoring or breathing pauses during sleep
+- Persistent low HRV despite good sleep hygiene

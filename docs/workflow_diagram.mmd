@@ -1,0 +1,10 @@
+graph TD
+    A[User Request] --> B[Initialize Agent]
+    B --> C{Load Health Data}
+    C -->|Success| D[Analyze Data]
+    C -->|Fail| Z[Return Error]
+    D --> E[Retrieve Knowledge]
+    E --> F[Generate Recommendations]
+    F --> G[Create Report]
+    G --> H[Save to Database]
+    H --> I[Return Results]

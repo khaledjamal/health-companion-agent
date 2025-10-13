@@ -1,0 +1,344 @@
+(venv) 12:34 c:\cloud\agent>python main.py analyze 2025-10-11 --verbose
+┌─────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Running Health Analysis                                                                         │
+│ User ID: 1                                                                                      │
+│ Date: 2025-10-11                                                                                │
+└─────────────────────────────────────────────────────────────────────────────────────────────────┘
+2025-10-13 12:35:05 | INFO     | src.memory.database:__init__ - Database initialized: postgresql://admin:***@localhost:5432/health_companion?client_encoding=utf8
+2025-10-13 12:35:08,254 INFO sqlalchemy.engine.Engine select pg_catalog.version()
+2025-10-13 12:35:08,254 INFO sqlalchemy.engine.Engine [raw sql] {}
+2025-10-13 12:35:08,254 INFO sqlalchemy.engine.Engine select current_schema()
+2025-10-13 12:35:08,254 INFO sqlalchemy.engine.Engine [raw sql] {}
+2025-10-13 12:35:08,269 INFO sqlalchemy.engine.Engine show standard_conforming_strings
+2025-10-13 12:35:08,269 INFO sqlalchemy.engine.Engine [raw sql] {}
+2025-10-13 12:35:08,269 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-10-13 12:35:08,269 INFO sqlalchemy.engine.Engine CREATE EXTENSION IF NOT EXISTS vector
+2025-10-13 12:35:08,269 INFO sqlalchemy.engine.Engine [generated in 0.00474s] {}
+2025-10-13 12:35:08,269 INFO sqlalchemy.engine.Engine COMMIT
+2025-10-13 12:35:08,285 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-10-13 12:35:08,285 INFO sqlalchemy.engine.Engine SELECT pg_catalog.pg_class.relname
+FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid =
+pg_catalog.pg_class.relnamespace
+WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY
+(ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND
+pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname !=
+%(nspname_1)s
+2025-10-13 12:35:08,301 INFO sqlalchemy.engine.Engine [generated in 0.00695s] {'table_name':
+'knowledge_documents', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5':
+'m', 'nspname_1': 'pg_catalog'}
+2025-10-13 12:35:08,301 INFO sqlalchemy.engine.Engine COMMIT
+⠴ Initializing agent...2025-10-13 12:35:08 | INFO     | src.memory.vector_store:_initialize_database - Vector store tables initialized
+2025-10-13 12:35:08,316 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-10-13 12:35:08,316 INFO sqlalchemy.engine.Engine SELECT count(*) AS count_1
+FROM (SELECT knowledge_documents.id AS knowledge_documents_id, knowledge_documents.content AS
+knowledge_documents_content, knowledge_documents.topic AS knowledge_documents_topic,
+knowledge_documents.doc_metadata AS knowledge_documents_doc_metadata, knowledge_documents.embedding
+AS knowledge_documents_embedding
+FROM knowledge_documents) AS anon_1
+2025-10-13 12:35:08,316 INFO sqlalchemy.engine.Engine [generated in 0.00405s] {}
+2025-10-13 12:35:08,332 INFO sqlalchemy.engine.Engine ROLLBACK
+⠦ Initializing agent...2025-10-13 12:35:08 | INFO     | src.memory.vector_store:__init__ - Vector store initialized with 4 documents
+⠋ Initializing agent...2025-10-13 12:35:08 | INFO     | src.llm.openai_client:__init__ - OpenAI client initialized with model: gpt-4o-mini
+2025-10-13 12:35:08 | INFO     | src.data.analyzer:__init__ - Health data analyzer initialized
+2025-10-13 12:35:08 | INFO     | src.recommendations.generator:__init__ - Recommendation generator initialized
+2025-10-13 12:35:08 | INFO     | src.agent.tools:__init__ - Agent tools initialized
+2025-10-13 12:35:08 | INFO     | src.agent.nodes:__init__ - Agent nodes initialized
+2025-10-13 12:35:08 | INFO     | src.agent.graph:_build_graph - Agent graph compiled successfully
+2025-10-13 12:35:08 | INFO     | src.agent.graph:__init__ - Health agent graph initialized
+
+Agent Execution:
+2025-10-13 12:35:08 | INFO     | src.agent.graph:run - Running health agent for user 1 on 2025-10-11
+2025-10-13 12:35:08 | INFO     | src.agent.nodes:load_data_node - Node: Loading health data
+2025-10-13 12:35:08 | INFO     | src.agent.tools:load_health_data - Loading health data for user 1 on 2025-10-11
+2025-10-13 12:35:08,763 INFO sqlalchemy.engine.Engine select pg_catalog.version()
+2025-10-13 12:35:08,763 INFO sqlalchemy.engine.Engine [raw sql] {}
+2025-10-13 12:35:08,779 INFO sqlalchemy.engine.Engine select current_schema()
+2025-10-13 12:35:08,779 INFO sqlalchemy.engine.Engine [raw sql] {}
+2025-10-13 12:35:08,779 INFO sqlalchemy.engine.Engine show standard_conforming_strings
+2025-10-13 12:35:08,779 INFO sqlalchemy.engine.Engine [raw sql] {}
+2025-10-13 12:35:08,779 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-10-13 12:35:08,795 INFO sqlalchemy.engine.Engine SELECT health_records.id,
+health_records.user_id, health_records.date, health_records.sleep_hours,
+health_records.sleep_quality, health_records.hrv, health_records.resting_heart_rate,
+health_records.steps, health_records.active_minutes, health_records.stress_score,
+health_records.calories_consumed, health_records.water_intake_ml, health_records.created_at
+FROM health_records
+WHERE health_records.user_id = %(user_id_1)s AND health_records.date = %(date_1)s
+2025-10-13 12:35:08,810 INFO sqlalchemy.engine.Engine [generated in 0.01806s] {'user_id_1': 1,
+'date_1': datetime.date(2025, 10, 11)}
+2025-10-13 12:35:08,810 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-10-13 12:35:08 | INFO     | src.agent.tools:load_health_data - Loaded health data for 2025-10-11
+2025-10-13 12:35:08 | INFO     | src.agent.tools:load_historical_data - Loading 30 days of historical data for user 1
+2025-10-13 12:35:08,810 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-10-13 12:35:08,826 INFO sqlalchemy.engine.Engine SELECT health_records.id,
+health_records.user_id, health_records.date, health_records.sleep_hours,
+health_records.sleep_quality, health_records.hrv, health_records.resting_heart_rate,
+health_records.steps, health_records.active_minutes, health_records.stress_score,
+health_records.calories_consumed, health_records.water_intake_ml, health_records.created_at
+FROM health_records
+WHERE health_records.user_id = %(user_id_1)s AND health_records.date >= %(date_1)s AND
+health_records.date <= %(date_2)s ORDER BY health_records.date DESC
+2025-10-13 12:35:08,826 INFO sqlalchemy.engine.Engine [generated in 0.01294s] {'user_id_1': 1,
+'date_1': datetime.date(2025, 9, 11), 'date_2': datetime.date(2025, 10, 11)}
+2025-10-13 12:35:08 | INFO     | src.memory.database:get_historical_records - Retrieved 2 historical records for user 1
+2025-10-13 12:35:08,842 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-10-13 12:35:08 | INFO     | src.agent.tools:load_historical_data - Loaded 2 historical records
+2025-10-13 12:35:08 | INFO     | src.agent.nodes:load_data_node - Loaded current and 2 historical records
+2025-10-13 12:35:08 | INFO     | src.agent.nodes:analyze_data_node - Node: Analyzing health data
+2025-10-13 12:35:08 | INFO     | src.agent.tools:analyze_health_data - Analyzing health data
+2025-10-13 12:35:08 | INFO     | src.data.analyzer:analyze - Analyzing health data for date: 2025-10-11
+2025-10-13 12:35:08 | INFO     | src.data.analyzer:analyze - Analysis complete: score=86, anomalies=6, trends=0
+2025-10-13 12:35:08 | INFO     | src.agent.tools:analyze_health_data - Analysis complete: score=86
+2025-10-13 12:35:08 | INFO     | src.agent.nodes:analyze_data_node - Analysis complete - Score: 86/100
+2025-10-13 12:35:08 | INFO     | src.agent.nodes:retrieve_knowledge_node - Node: Retrieving knowledge
+2025-10-13 12:35:08 | INFO     | src.agent.tools:retrieve_knowledge - Retrieving knowledge for query: 'active minutes optimization...'
+2025-10-13 12:35:08,902 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-10-13 12:35:08,906 INFO sqlalchemy.engine.Engine SELECT knowledge_documents.id AS
+knowledge_documents_id, knowledge_documents.content AS knowledge_documents_content,
+knowledge_documents.topic AS knowledge_documents_topic, knowledge_documents.doc_metadata AS
+knowledge_documents_doc_metadata, knowledge_documents.embedding AS knowledge_documents_embedding,
+knowledge_documents.embedding <=> %(embedding_1)s AS distance
+FROM knowledge_documents ORDER BY distance
+ LIMIT %(param_1)s
+2025-10-13 12:35:08,906 INFO sqlalchemy.engine.Engine [generated in 0.01403s] {'embedding_1':
+'[0.00987223256379366,0.043869778513908386,-0.049616340547800064,0.028356585651636124,0.00638465443
+6260462,0.004469768144190311,0.13674521446228027,0. ... (7761 characters truncated) ...
+5,-0.00827554240822792,0.021479414775967598,0.015630608424544334,-0.02931988798081875,0.04527356475
+5916595,-0.12597572803497314,-0.03938290476799011]', 'param_1': 2}
+2025-10-13 12:35:08 | INFO     | src.memory.vector_store:retrieve - Retrieved 2 documents for query: 'active minutes optimization...'
+2025-10-13 12:35:08,937 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-10-13 12:35:08 | INFO     | src.agent.tools:retrieve_knowledge - Retrieved 2 knowledge documents
+2025-10-13 12:35:08 | INFO     | src.agent.tools:retrieve_knowledge - Retrieving knowledge for query: 'stress score optimization...'
+2025-10-13 12:35:08,953 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-10-13 12:35:08,953 INFO sqlalchemy.engine.Engine SELECT knowledge_documents.id AS
+knowledge_documents_id, knowledge_documents.content AS knowledge_documents_content,
+knowledge_documents.topic AS knowledge_documents_topic, knowledge_documents.doc_metadata AS
+knowledge_documents_doc_metadata, knowledge_documents.embedding AS knowledge_documents_embedding,
+knowledge_documents.embedding <=> %(embedding_1)s AS distance
+FROM knowledge_documents ORDER BY distance
+ LIMIT %(param_1)s
+2025-10-13 12:35:08,968 INFO sqlalchemy.engine.Engine [cached since 0.07463s ago] {'embedding_1':
+'[0.037689078599214554,0.04645242914557457,-0.03380807489156723,0.052366796880960464,-0.01468452345
+5798626,0.0148917930200696,0.05698711797595024,0.02 ... (7752 characters truncated) ...
+56,0.049403559416532516,-0.04607073962688446,-0.01478817593306303,0.02546391636133194,0.00445444323
+1225014,-0.05690710246562958,0.009371137246489525]', 'param_1': 2}
+2025-10-13 12:35:08 | INFO     | src.memory.vector_store:retrieve - Retrieved 2 documents for query: 'stress score optimization...'
+2025-10-13 12:35:08,985 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-10-13 12:35:08 | INFO     | src.agent.tools:retrieve_knowledge - Retrieved 2 knowledge documents
+2025-10-13 12:35:08 | INFO     | src.agent.nodes:retrieve_knowledge_node - Retrieved 3 unique knowledge documents
+2025-10-13 12:35:09 | INFO     | src.agent.nodes:generate_recommendations_node - Node: Generating recommendations
+2025-10-13 12:35:09,002 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-10-13 12:35:09,002 INFO sqlalchemy.engine.Engine SELECT user_profiles.id, user_profiles.name,
+user_profiles.age, user_profiles.goals, user_profiles.created_at, user_profiles.updated_at
+FROM user_profiles
+WHERE user_profiles.id = %(id_1)s
+2025-10-13 12:35:09,016 INFO sqlalchemy.engine.Engine [generated in 0.00550s] {'id_1': 1}
+2025-10-13 12:35:09,016 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-10-13 12:35:09 | INFO     | src.agent.tools:generate_recommendations - Generating recommendations
+2025-10-13 12:35:09 | INFO     | src.recommendations.generator:generate - Generating recommendations
+2025-10-13 12:35:24 | INFO     | src.recommendations.generator:generate - Generated 5 recommendations
+2025-10-13 12:35:24 | INFO     | src.agent.tools:generate_recommendations - Generated 5 recommendations
+2025-10-13 12:35:24 | INFO     | src.agent.nodes:generate_recommendations_node - Generated 5 recommendations
+2025-10-13 12:35:24 | INFO     | src.agent.nodes:create_report_node - Node: Creating daily report
+2025-10-13 12:35:24 | INFO     | src.agent.tools:save_recommendations - Saving 5 recommendations for user 1
+2025-10-13 12:35:24,512 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-10-13 12:35:24,512 INFO sqlalchemy.engine.Engine INSERT INTO recommendations (user_id, date,
+title, description, category, priority, confidence, followed, effectiveness, created_at) VALUES
+(%(user_id)s, %(date)s, %(title)s, %(description)s, %(category)s, %(priority)s, %(confidence)s,
+%(followed)s, %(effectiveness)s, %(created_at)s) RETURNING recommendations.id
+2025-10-13 12:35:24,512 INFO sqlalchemy.engine.Engine [generated in 0.00244s] {'user_id': 1,
+'date': datetime.date(2025, 10, 11), 'title': 'Stress Management Techniques', 'description':
+'Implement daily stress management practices such as mindfulness meditation or yoga. Aim for at
+least 10-15 minutes a day. These practices can help lower your stress score and improve overall
+well-being.', 'category': 'stress', 'priority': 'urgent', 'confidence': 0.9, 'followed': None,
+'effectiveness': None, 'created_at': datetime.datetime(2025, 10, 13, 8, 35, 24, 512381)}
+2025-10-13 12:35:24,527 INFO sqlalchemy.engine.Engine COMMIT
+2025-10-13 12:35:24,528 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-10-13 12:35:24,528 INFO sqlalchemy.engine.Engine SELECT recommendations.id,
+recommendations.user_id, recommendations.date, recommendations.title, recommendations.description,
+recommendations.category, recommendations.priority, recommendations.confidence,
+recommendations.followed, recommendations.effectiveness, recommendations.created_at
+FROM recommendations
+WHERE recommendations.id = %(pk_1)s
+2025-10-13 12:35:24,541 INFO sqlalchemy.engine.Engine [generated in 0.00335s] {'pk_1': 1}
+2025-10-13 12:35:24 | INFO     | src.memory.database:save_recommendation - Saved recommendation: Stress Management Techniques for user 1
+2025-10-13 12:35:24,543 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-10-13 12:35:24,543 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-10-13 12:35:24,543 INFO sqlalchemy.engine.Engine INSERT INTO recommendations (user_id, date,
+title, description, category, priority, confidence, followed, effectiveness, created_at) VALUES
+(%(user_id)s, %(date)s, %(title)s, %(description)s, %(category)s, %(priority)s, %(confidence)s,
+%(followed)s, %(effectiveness)s, %(created_at)s) RETURNING recommendations.id
+2025-10-13 12:35:24,543 INFO sqlalchemy.engine.Engine [cached since 0.03906s ago] {'user_id': 1,
+'date': datetime.date(2025, 10, 11), 'title': 'Increase Active Minutes', 'description': 'Set a
+daily goal to increase your active minutes to at least 30 per day. This may include activities such
+as brisk walking, jogging, or any form of exercise that raises your heart rate.', 'category':
+'activity', 'priority': 'high', 'confidence': 0.8, 'followed': None, 'effectiveness': None,
+'created_at': datetime.datetime(2025, 10, 13, 8, 35, 24, 543957)}
+2025-10-13 12:35:24,559 INFO sqlalchemy.engine.Engine COMMIT
+2025-10-13 12:35:24,559 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-10-13 12:35:24,559 INFO sqlalchemy.engine.Engine SELECT recommendations.id,
+recommendations.user_id, recommendations.date, recommendations.title, recommendations.description,
+recommendations.category, recommendations.priority, recommendations.confidence,
+recommendations.followed, recommendations.effectiveness, recommendations.created_at
+FROM recommendations
+WHERE recommendations.id = %(pk_1)s
+2025-10-13 12:35:24,575 INFO sqlalchemy.engine.Engine [cached since 0.04091s ago] {'pk_1': 2}
+2025-10-13 12:35:24 | INFO     | src.memory.database:save_recommendation - Saved recommendation: Increase Active Minutes for user 1
+2025-10-13 12:35:24,575 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-10-13 12:35:24,575 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-10-13 12:35:24,575 INFO sqlalchemy.engine.Engine INSERT INTO recommendations (user_id, date,
+title, description, category, priority, confidence, followed, effectiveness, created_at) VALUES
+(%(user_id)s, %(date)s, %(title)s, %(description)s, %(category)s, %(priority)s, %(confidence)s,
+%(followed)s, %(effectiveness)s, %(created_at)s) RETURNING recommendations.id
+2025-10-13 12:35:24,590 INFO sqlalchemy.engine.Engine [cached since 0.0759s ago] {'user_id': 1,
+'date': datetime.date(2025, 10, 11), 'title': 'Optimize Sleep Environment', 'description': 'Make
+adjustments to your sleep environment by keeping the bedroom temperature between 60-67°F, reducing
+light exposure, and creating a relaxing bedtime routine to improve sleep quality.', 'category':
+'sleep', 'priority': 'medium', 'confidence': 0.85, 'followed': None, 'effectiveness': None,
+'created_at': datetime.datetime(2025, 10, 13, 8, 35, 24, 575100)}
+2025-10-13 12:35:24,606 INFO sqlalchemy.engine.Engine COMMIT
+2025-10-13 12:35:24,613 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-10-13 12:35:24,613 INFO sqlalchemy.engine.Engine SELECT recommendations.id,
+recommendations.user_id, recommendations.date, recommendations.title, recommendations.description,
+recommendations.category, recommendations.priority, recommendations.confidence,
+recommendations.followed, recommendations.effectiveness, recommendations.created_at
+FROM recommendations
+WHERE recommendations.id = %(pk_1)s
+2025-10-13 12:35:24,622 INFO sqlalchemy.engine.Engine [cached since 0.08436s ago] {'pk_1': 3}
+2025-10-13 12:35:24 | INFO     | src.memory.database:save_recommendation - Saved recommendation: Optimize Sleep Environment for user 1
+2025-10-13 12:35:24,622 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-10-13 12:35:24,622 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-10-13 12:35:24,622 INFO sqlalchemy.engine.Engine INSERT INTO recommendations (user_id, date,
+title, description, category, priority, confidence, followed, effectiveness, created_at) VALUES
+(%(user_id)s, %(date)s, %(title)s, %(description)s, %(category)s, %(priority)s, %(confidence)s,
+%(followed)s, %(effectiveness)s, %(created_at)s) RETURNING recommendations.id
+2025-10-13 12:35:24,637 INFO sqlalchemy.engine.Engine [cached since 0.1217s ago] {'user_id': 1,
+'date': datetime.date(2025, 10, 11), 'title': 'Gradually Increase Sleep Hours', 'description': 'Aim
+to increase your sleep hours to at least 7 hours per night. Gradually adjust your bedtime or wake
+time by 15-30 minutes if necessary to achieve this goal.', 'category': 'sleep', 'priority':
+'medium', 'confidence': 0.8, 'followed': None, 'effectiveness': None, 'created_at':
+datetime.datetime(2025, 10, 13, 8, 35, 24, 622167)}
+2025-10-13 12:35:24,641 INFO sqlalchemy.engine.Engine COMMIT
+2025-10-13 12:35:24,653 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-10-13 12:35:24,653 INFO sqlalchemy.engine.Engine SELECT recommendations.id,
+recommendations.user_id, recommendations.date, recommendations.title, recommendations.description,
+recommendations.category, recommendations.priority, recommendations.confidence,
+recommendations.followed, recommendations.effectiveness, recommendations.created_at
+FROM recommendations
+WHERE recommendations.id = %(pk_1)s
+2025-10-13 12:35:24,653 INFO sqlalchemy.engine.Engine [cached since 0.1266s ago] {'pk_1': 4}
+2025-10-13 12:35:24 | INFO     | src.memory.database:save_recommendation - Saved recommendation: Gradually Increase Sleep Hours for user 1
+2025-10-13 12:35:24,669 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-10-13 12:35:24,669 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-10-13 12:35:24,669 INFO sqlalchemy.engine.Engine INSERT INTO recommendations (user_id, date,
+title, description, category, priority, confidence, followed, effectiveness, created_at) VALUES
+(%(user_id)s, %(date)s, %(title)s, %(description)s, %(category)s, %(priority)s, %(confidence)s,
+%(followed)s, %(effectiveness)s, %(created_at)s) RETURNING recommendations.id
+2025-10-13 12:35:24,669 INFO sqlalchemy.engine.Engine [cached since 0.1628s ago] {'user_id': 1,
+'date': datetime.date(2025, 10, 11), 'title': 'Incorporate Relaxation Techniques Before Bed',
+'description': 'Develop a nighttime routine that includes relaxation techniques such as reading,
+deep breathing, or light stretching to wind down before sleep. Aim for at least 30 minutes of these
+activities before bed.', 'category': 'sleep', 'priority': 'low', 'confidence': 0.75, 'followed':
+None, 'effectiveness': None, 'created_at': datetime.datetime(2025, 10, 13, 8, 35, 24, 669514)}
+2025-10-13 12:35:24,685 INFO sqlalchemy.engine.Engine COMMIT
+2025-10-13 12:35:24,685 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-10-13 12:35:24,685 INFO sqlalchemy.engine.Engine SELECT recommendations.id,
+recommendations.user_id, recommendations.date, recommendations.title, recommendations.description,
+recommendations.category, recommendations.priority, recommendations.confidence,
+recommendations.followed, recommendations.effectiveness, recommendations.created_at
+FROM recommendations
+WHERE recommendations.id = %(pk_1)s
+2025-10-13 12:35:24,700 INFO sqlalchemy.engine.Engine [cached since 0.169s ago] {'pk_1': 5}
+2025-10-13 12:35:24 | INFO     | src.memory.database:save_recommendation - Saved recommendation: Incorporate Relaxation Techniques Before Bed for user 1
+2025-10-13 12:35:24,700 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-10-13 12:35:24 | INFO     | src.agent.tools:save_recommendations - Recommendations saved to database
+2025-10-13 12:35:24 | INFO     | src.agent.nodes:create_report_node - Daily report created successfully
+2025-10-13 12:35:24,717 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-10-13 12:35:24,717 INFO sqlalchemy.engine.Engine INSERT INTO agent_executions (user_id,
+execution_date, steps_taken, duration_seconds, success, error_message) VALUES (%(user_id)s,
+%(execution_date)s, %(steps_taken)s, %(duration_seconds)s, %(success)s, %(error_message)s)
+RETURNING agent_executions.id
+2025-10-13 12:35:24,717 INFO sqlalchemy.engine.Engine [generated in 0.00510s] {'user_id': 1,
+'execution_date': datetime.datetime(2025, 10, 13, 8, 35, 24, 717403), 'steps_taken': '["Loaded
+health data for 2025-10-11", "Analyzed health data - Score: 86/100", "Retrieved 3 knowledge
+documents", "Generated 5 recommendations", "Created daily health report"]', 'duration_seconds':
+15.986246, 'success': True, 'error_message': None}
+2025-10-13 12:35:24,732 INFO sqlalchemy.engine.Engine COMMIT
+2025-10-13 12:35:24,741 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-10-13 12:35:24,741 INFO sqlalchemy.engine.Engine SELECT agent_executions.id,
+agent_executions.user_id, agent_executions.execution_date, agent_executions.steps_taken,
+agent_executions.duration_seconds, agent_executions.success, agent_executions.error_message
+FROM agent_executions
+WHERE agent_executions.id = %(pk_1)s
+2025-10-13 12:35:24,748 INFO sqlalchemy.engine.Engine [generated in 0.00930s] {'pk_1': 2}
+2025-10-13 12:35:24 | INFO     | src.memory.database:log_agent_execution - Logged agent execution for user 1: success=True
+2025-10-13 12:35:24,748 INFO sqlalchemy.engine.Engine ROLLBACK
+2025-10-13 12:35:24 | INFO     | src.agent.graph:run - Agent execution completed in 15.99s - Success: True
+
+======================================================================
+Daily Health Report - 2025-10-11
+======================================================================
+
+Overall Health Score: 86/100
+
+Summary:
+Your overall health score is excellent at 86/100. Critical attention needed for: stress score.
+
+Key Insights:
+  • Excellent health score of 86/100
+  • 1 critical areas need immediate attention
+
+Detected Issues:
+  ⚠ Sleep Hours is below optimal range (6.5 < 7.0)
+  ⚠ Sleep Quality is below optimal range (6 < 7)
+  ⚠ Hrv is below optimal range (45 < 50)
+  ⚠ Steps is below optimal range (7200 < 8000)
+  ⚠ Active Minutes is below optimal range (25 < 30)
+  ⚠ Stress Score is above optimal range (7 > 4)
+
+Recommendations:
+
+1. Stress Management Techniques (urgent)
+   Implement daily stress management practices such as mindfulness meditation or yoga. Aim for at
+least 10-15 minutes a day. These practices can help lower your stress score and improve overall
+well-being.
+   Expected Impact: A reduction in stress score, improved mood, and better sleep quality.
+
+2. Increase Active Minutes (high)
+   Set a daily goal to increase your active minutes to at least 30 per day. This may include
+activities such as brisk walking, jogging, or any form of exercise that raises your heart rate.
+   Expected Impact: Increased physical activity leading to improved stress management and overall
+fitness.
+
+3. Optimize Sleep Environment (medium)
+   Make adjustments to your sleep environment by keeping the bedroom temperature between 60-67°F,
+reducing light exposure, and creating a relaxing bedtime routine to improve sleep quality.
+   Expected Impact: Better sleep quality and duration, leading to improved recovery and reduced
+stress.
+
+4. Gradually Increase Sleep Hours (medium)
+   Aim to increase your sleep hours to at least 7 hours per night. Gradually adjust your bedtime or
+wake time by 15-30 minutes if necessary to achieve this goal.
+   Expected Impact: Improved sleep duration leading to better recovery and lower stress levels.
+
+5. Incorporate Relaxation Techniques Before Bed (low)
+   Develop a nighttime routine that includes relaxation techniques such as reading, deep breathing,
+or light stretching to wind down before sleep. Aim for at least 30 minutes of these activities
+before bed.
+   Expected Impact: Enhanced sleep quality and reduced time to fall asleep.
+
+Top Action Items:
+  1. Stress Management Techniques: Implement daily stress management practices such as mindfulness
+meditation or yoga. Aim for at least 10-15 minutes a day. These practices can help lower your
+stress score and improve overall well-being.
+  2. Increase Active Minutes: Set a daily goal to increase your active minutes to at least 30 per
+day. This may include activities such as brisk walking, jogging, or any form of exercise that
+raises your heart rate.
+  3. Optimize Sleep Environment: Make adjustments to your sleep environment by keeping the bedroom
+temperature between 60-67°F, reducing light exposure, and creating a relaxing bedtime routine to
+improve sleep quality.
+
+======================================================================
+
+
+(venv) 12:35 c:\cloud\agent>
