@@ -1,10 +1,8 @@
 # ARC Health Companion ⚕️
 
-An agentic AI system for personalized health optimization using LangGraph, RAG, and multi-step reasoning.
+ARC Health Companion uses a LangGraph workflow to process wellness data, retrieve reference material from PostgreSQL with pgvector, and assemble a structured report. The repository includes a command-line interface (CLI). The Quick Start uses the bundled sample data.
 
-## 🎯 Overview
-
-ARC Health Companion is an advanced AI agent that analyzes health metrics, retrieves relevant medical knowledge, and generates personalized recommendations. Built with LangGraph for sophisticated multi-step reasoning and pgvector on PostgreSQL for retrieval-augmented generation (RAG).
+See the [workflow diagram](docs/workflow_diagram.png) and [architecture documentation](docs/ARCHITECTURE.md).
 
 ## ✨ Features
 
@@ -12,10 +10,9 @@ ARC Health Companion is an advanced AI agent that analyzes health metrics, retri
 - **📊 Health Data Analysis**: Anomaly detection, trend analysis, and correlations
 - **🧠 RAG Pipeline**: pgvector on PostgreSQL vector store with evidence-based health knowledge
 - **💡 Personalized Recommendations**: Structured LLM outputs using Instructor
-- **🎨 Beautiful Dashboard**: Streamlit interface with interactive visualizations
 - **💾 Persistent Memory**: PostgreSQL database for user history and adaptation
 - **📝 CLI Interface**: Rich terminal interface for power users
-- **🔄 Dual LLM Support**: OpenAI (GPT-4o-mini) + Ollama (local models)
+- **🔄 Model Clients**: The CLI uses the OpenAI API. The source also includes an Ollama client.
 
 ## 🗺️ Architecture
 
@@ -34,121 +31,66 @@ graph TD
     H --> I[Return Results]
 ```
 
-For detailed architecture documentation, see [ARCHITECTURE.md](docs/ARCHITECTURE.md).
-
 ### System Components
 
-- **Frontend Layer**: Streamlit dashboard + Rich CLI
+- **Interface Layer**: Typer + Rich CLI
 - **Agent Layer**: LangGraph multi-step reasoning
 - **Storage Layer**: PostgreSQL (user data) + pgvector (embeddings)
-- **LLM Layer**: OpenAI GPT-4o-mini + Ollama (local)
-
-## ⚙️ Configuration
-
-Place a `.env` file in the project root:
-
-```ini
-ENVIRONMENT=development
-LOG_LEVEL=INFO
-POSTGRES_HOST=localhost
-POSTGRES_PORT=5432
-POSTGRES_DB=health_companion
-POSTGRES_USER=admin
-POSTGRES_PASSWORD=<enter-password-here>
-POSTGRES_VECTOR_HOST=localhost
-POSTGRES_VECTOR_PORT=5432
-POSTGRES_VECTOR_DB=health_companion_vectors
-POSTGRES_VECTOR_USER=admin
-POSTGRES_VECTOR_PASSWORD=<enter-password-here>
-EMBEDDING_MODEL=all-MiniLM-L6-v2
-LLM_PROVIDER=openai
-OPENAI_API_KEY=<enter-api-key-here>
-OPENAI_MODEL=gpt-4o-mini
-OPENAI_TEMPERATURE=0.7
-OLLAMA_BASE_URL=http://localhost:11434
-OLLAMA_MODEL=llama3.1:8b
-MAX_AGENT_ITERATIONS=10
-AGENT_VERBOSE=true
-DEFAULT_USER_ID=1
-KNOWLEDGE_BASE_DIR=data/knowledge_base
-```
+- **LLM Layer**: OpenAI GPT-4o-mini by default. An Ollama client is also included.
 
 ## 🚀 Quick Start
 
 ### Prerequisites
 
-- Python 3.10+
-- PostgreSQL with pgvector extension
-- OpenAI API key
-- (Optional) Ollama for local models
+- Python 3.12 and `uv` for the pinned dependencies
+- PostgreSQL with pgvector installed and the `psql` client available
+- An OpenAI API key for the CLI demo
 
-### Installation
+1. Clone the repository and install the dependencies.
 
-1. **Clone the repository**
-```bash
-git clone https://github.com/khaledjamal/health-companion-agent.git
-cd health-companion-agent
-```
+   ```bash
+   git clone https://github.com/khaledjamal/health-companion-agent.git
+   cd health-companion-agent
+   uv venv --python 3.12
+   uv pip install -r requirements.txt
+   source .venv/bin/activate
+   ```
 
-2. **Create virtual environment**
-```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-```
+   In Windows PowerShell, activate the environment with `.\.venv\Scripts\Activate.ps1`.
 
-3. **Install dependencies**
-```bash
-pip install -r requirements.txt
-```
+2. Copy the [configuration template](.env.example) to `.env` and set the database connection details and model API key.
 
-4. **Configure environment**
-```bash
-cp .env.example .env
-# Edit .env and add your credentials
-```
+   ```bash
+   cp .env.example .env
+   ```
 
-5. **Setup PostgreSQL databases**
-```sql
-psql -U admin -d postgres
-CREATE DATABASE health_companion;
-CREATE DATABASE health_companion_vectors;
-\c health_companion
-CREATE EXTENSION vector;
-\c health_companion_vectors
-CREATE EXTENSION vector;
-```
+3. Open `psql` connected to the `postgres` database as a local database administrator. Use the database names and existing login roles from `.env`. This example uses the `admin` role from the template.
 
-6. **Initialize database**
-```bash
-python main.py init-db
-```
+   ```sql
+   CREATE DATABASE health_companion OWNER admin;
+   CREATE DATABASE health_companion_vectors OWNER admin;
+   \c health_companion
+   CREATE EXTENSION vector;
+   \c health_companion_vectors
+   CREATE EXTENSION vector;
+   SELECT extversion FROM pg_extension WHERE extname = 'vector';
+   ```
 
-7. **Load knowledge base**
-```bash
-python main.py load-knowledge
-```
+4. Initialize the databases and load the bundled data. Use demo databases for this step. The `load-knowledge` command replaces the indexed documents in the configured vector store.
 
-8. **Load sample data**
-```bash
-python main.py load-data data/sample_health_data.json
-```
+   ```bash
+   python main.py init-db
+   python main.py load-knowledge
+   python main.py load-data data/sample_health_data.json
+   ```
 
-### Running the Application
+5. Run the sample analysis. This command calls the configured model API.
 
-**Launch Streamlit Dashboard:**
-```bash
-python main.py dashboard
-```
+   ```bash
+   python main.py analyze 2025-10-11 --verbose
+   ```
 
-**Run Analysis (CLI):**
-```bash
-python main.py analyze 2025-10-11 --verbose
-```
-
-**View Reports:**
-```bash
-python main.py report --user-id 1 --days 7
-```
+   Use `python main.py report --user-id 1 --days 7` to view recent records. The window ends today. Increase `--days` to include the bundled sample date.
 
 ## 📁 Project Structure
 
@@ -174,7 +116,7 @@ health-companion-agent/
 │   ├── config.py           # Configuration
 │   ├── models.py           # Pydantic models
 │   ├── cli.py              # CLI interface
-│   └── streamlit_app.py    # Dashboard
+│   └── streamlit_app.py    # Dashboard prototype (not wired up yet)
 ├── data/
 │   ├── sample_health_data.json
 │   └── knowledge_base/     # Health knowledge docs
@@ -186,15 +128,11 @@ health-companion-agent/
 └── README.md
 ```
 
-## 🧪 Running Tests
-
-```bash
-pytest tests/ -v
-```
-
 ## 📊 Usage Examples
 
 ### Analyze Health Data
+
+This example uses the bundled sample record dated 2025-10-11. The score shown is an example of the report format.
 
 ```python
 from src.agent.graph import HealthAgentGraph
@@ -237,19 +175,9 @@ db.save_health_record(metrics)
 - **Instructor**: Structured LLM outputs with Pydantic
 - **pgvector on PostgreSQL**: Vector database for RAG
 - **SQLModel**: Type-safe database operations
-- **Streamlit**: Interactive dashboard
-- **Typer + Rich**: Beautiful CLI
+- **Typer + Rich**: Command-line interface
 - **OpenAI API**: GPT-4o-mini for reasoning
 - **Ollama**: Local model support
-
-## 🎯 Evaluation Criteria Alignment
-
-| Criteria | Implementation | Score |
-|----------|----------------|-------|
-| **System Architecture** (35%) | LangGraph agent, modular design, clean separation | ⭐⭐⭐⭐⭐ |
-| **Agent Reasoning** (35%) | Multi-step workflow, RAG integration, adaptive recommendations | ⭐⭐⭐⭐⭐ |
-| **Scalability** (20%) | Vector DB, persistent storage, async-ready | ⭐⭐⭐⭐⭐ |
-| **Documentation** (10%) | Comprehensive README, ARCHITECTURE.md, inline docs | ⭐⭐⭐⭐⭐ |
 
 ## 📝 Data Format
 
@@ -285,57 +213,26 @@ REM Start service
 net start postgresql-x64-18
 ```
 
-Create databases with pgvector:
-
-```sql
-psql -U admin -d postgres
-CREATE DATABASE health_companion;
-CREATE DATABASE health_companion_vectors;
-
-\c health_companion
-CREATE EXTENSION vector;
-
-\c health_companion_vectors
-CREATE EXTENSION vector;
-
--- Verify installation
-SELECT * FROM pg_extension WHERE extname = 'vector';
-```
-
-## ▶️ Running Analysis
-
-```bash
-# Initialize database tables
-python main.py init-db
-
-# Load knowledge base
-python main.py load-knowledge
-
-# Load sample data
-python main.py load-data data/sample_health_data.json
-
-# Run analysis
-python main.py analyze 2025-10-11 --verbose
-
-# View reports
-python main.py report --user-id 1 --days 7
-```
+After starting the service, connect with `psql -U admin -d postgres` and follow step 3 in the Quick Start.
 
 ## 🧩 Testing & Utilities
+
+Create a dedicated `health_companion_test` database before running the tests. The database tests clear tables in that database between cases. Run the full setup utility against the demo databases, where it writes test records and indexes sample documents.
 
 ```bash
 # Run unit tests
 pytest tests/ -v
 
-# Quick connectivity check
-python test_python_connection_to_db.py
-
 # Full setup verification
 python test_full_setup.py
 ```
 
+## 🔭 Next Steps
+
+- Finish the Streamlit dashboard prototype (`src/streamlit_app.py`) and connect it to the agent.
+
 ## 📄 License
 
-MIT License - See LICENSE file for details
+MIT License. See [LICENSE](LICENSE).
 
 
